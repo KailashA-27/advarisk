@@ -55,8 +55,11 @@ Response:
         "year": "Year"
     }
 }
+
 Code Explanation
+
 Main Modules and Functions:
+
 Initial part of the code is responsible for initiating a session with the Jamabandi website, extracting necessary hidden form fields (__VIEWSTATE and __EVENTVALIDATION), and posting data to simulate interaction with the website's form.
 1) A requests.Session object is created to persist certain parameters across multiple requests. It can be used to handle cookies, headers, and other session-related information.
 2) The session sends a GET request to the URL. The response contains the HTML content of the page.
@@ -69,8 +72,20 @@ Initial part of the code is responsible for initiating a session with the Jamaba
   ctl00$ContentPlaceHolder1$a: The value indicating the selected radio button (RdobtnKhasra).
   ctl00$ContentPlaceHolder1$ddldname: An initial value for the dropdown list (-1).
 6) The session sends a POST request to the URL with the radio_data. This simulates a form submission on the website.
-7) 
-
+7) The HTML content of the response is parsed again using BeautifulSoup to extract the updated __VIEWSTATE and __EVENTVALIDATION values, as these fields often change with each request.
+8) The updated values of __VIEWSTATE and __EVENTVALIDATION are extracted from the response. These will be used in subsequent form submissions to maintain state.
+9) Create a dropdown list that contains tuples where each tuple represents a dropdown field. Each tuple includes the form field name, the HTML element ID, and the input value provided by the user.
+10) get_code(soup, value, input_x) is called to get the code for the selected input value. This function extracts the value corresponding to the user's input from the dropdown options.
+The radio_data dictionary is updated with the extracted code and other required form fields.
+A POST request is sent with the updated radio_data.
+The response HTML is parsed again using BeautifulSoup to extract the updated __VIEWSTATE and __EVENTVALIDATION values for the next iteration.
+If an error occurs (e.g., the input value is not found in the dropdown), the API returns an error message.
+11) After iterating through all the dropdowns, a final POST request is sent to select the first row in the resulting grid view (if any). This is done by setting __EVENTTARGET to ctl00$ContentPlaceHolder1$GridView1 and __EVENTARGUMENT to Select$0.
+12) The code then attempts to extract khewat_no and khatoni_no from the resulting table in the HTML response. If these elements are not found, the values are set to None.
+13) A GET request is sent to the Nakal URL to fetch additional details. The response is saved to a file for further processing.
+14) The HTML content is read from the saved file and parsed using lxml.
+The get_data function is used to extract various details using XPath queries.
+15) The extracted data is assembled into a dictionary and returned as the output of the API endpoint. This includes the district, tehsil, village, jamabandi year, khewat number, khatoni number, and additional inner details.
 
 Imports:
 requests: To handle HTTP requests.
