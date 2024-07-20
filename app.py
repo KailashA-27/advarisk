@@ -35,7 +35,6 @@ def get_data(tree,given_xpath):
         data = data_elements[0].text_content().strip()
     except:
         data = None
-    # print("Extracted data:", data)
     return data
 
 
@@ -85,8 +84,6 @@ async def get_land_records(data: InputData):
             radio_data["__EVENTTARGET"] = dropdown
             
             response = session.post(url, data=radio_data)
-            with open("response.html", "w", encoding="utf-8") as file:
-                file.write(response.text)
             soup = BeautifulSoup(response.text, 'html.parser')
             viewstate = soup.find('input', {'name': '__VIEWSTATE'})['value']
             eventvalidation = soup.find('input', {'name': '__EVENTVALIDATION'})['value']
@@ -146,8 +143,6 @@ async def get_land_records(data: InputData):
             'year':year_name
         }
     }
-    # print(output)
-
     return output
 
 if __name__ == "__main__":
