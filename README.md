@@ -1,7 +1,4 @@
-# advarisk
-Web Scraping Assignment
-
-Land Records Extraction API
+#Land Records Extraction API
 
 This project provides an API to extract land records from the Jamabandi website.In this project, the requests library is used to handle HTTP requests to interact with the Jamabandi website. It uses BeautifulSoup for HTML parsing, and lxml for XPath querying, also uses FastAPI for creating a web server which exposes an API endpoint,
 
